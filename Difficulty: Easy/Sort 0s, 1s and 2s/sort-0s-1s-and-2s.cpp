@@ -8,28 +8,31 @@ class Solution {
   public:
     void sort012(vector<int>& arr) {
         // code here
-        vector<int>arr1;
-        vector<int>arr2;
-        vector<int>arr3;
-        int n=arr.size();
-        for(int i=0;i<n;i++){
-            if(arr[i]==0){
-                arr1.push_back(arr[i]);
+        int countZero = 0;
+        int countOne = 0;
+        int countTwo = 0;
+        
+        for(int i=0; i<arr.size(); i++) {
+            
+            if(arr[i] == 0) countZero++;
+            else if(arr[i] == 1) countOne++;
+            else countTwo++;
+        }
+        
+        for(int i=0; i<arr.size(); i++) {
+            if(countZero != 0) {
+                arr[i] = 0;
+                countZero--;
             }
-            else if(arr[i]==1){
-                arr2.push_back(arr[i]);
-                
+            else if(countOne != 0) {
+                arr[i] = 1;
+                countOne--;
             }
-            else{
-                arr3.push_back(arr[i]);
-                
+            else {
+                arr[i]=2;
+                countTwo--;
             }
         }
-        vector<int>arr4;
-        arr4.insert(arr4.end(), arr1.begin(), arr1.end());
-        arr4.insert(arr4.end(), arr2.begin(), arr2.end());  
-        arr4.insert(arr4.end(), arr3.begin(), arr3.end());
-        arr=arr4;
     }
 };
 
@@ -59,6 +62,7 @@ int main() {
         }
 
         cout << endl;
+        cout << "~" << endl;
     }
     return 0;
 }
