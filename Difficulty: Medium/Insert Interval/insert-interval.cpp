@@ -1,62 +1,32 @@
-//{ Driver Code Starts
-#include <bits/stdc++.h>
-using namespace std;
-
-
-// } Driver Code Ends
-// User function Template for C++
-
 class Solution {
   public:
     vector<vector<int>> insertInterval(vector<vector<int>> &intervals,
                                        vector<int> &newInterval) {
         // code here
-        intervals.push_back(newInterval);
-        sort(intervals.begin(),intervals.end());
-        vector<vector<int>> v;
-        for(const auto& i:intervals)
-        {
-            if(v.empty() || v.back()[1]<i[0])
-            {
-                v.push_back(i);
+         int start=newInterval[0], end=newInterval[1];
+        vector<vector<int>>ans;
+        int l, r=INT_MIN, c=-1;
+        int n=intervals.size();
+        for(int i=0; i<n; i++){
+            int a=intervals[i][0], b=intervals[i][1];
+            if(b<start){
+                ans.push_back({a, b});
             }
-            else if(v.back()[1]>=i[0] && v.back()[1]<i[1])
-            {
-                v.back()[1]=i[1];
+            else if(c==-1 && max(a, start) <= min(b, end)){
+                start=min(start, a);
+                end=max(end, b);
+            }
+            else{
+                if(c==-1){
+                    c=0;
+                    ans.push_back({start, end});
+                }
+                ans.push_back({a, b});
             }
         }
-        return v;
+        if(c==-1){
+            ans.push_back({start, end});
+        }
+        return ans;
     }
 };
-
-//{ Driver Code Starts.
-
-int main() {
-    int t;
-    cin >> t;
-    while (t--) {
-        int N;
-        cin >> N;
-        vector<vector<int>> intervals(N, vector<int>(2));
-        for (int i = 0; i < N; i++) {
-            cin >> intervals[i][0] >> intervals[i][1];
-        }
-        vector<int> newInterval(2);
-        cin >> newInterval[0] >> newInterval[1];
-
-        Solution obj;
-        vector<vector<int>> ans = obj.insertInterval(intervals, newInterval);
-        cout << "[";
-        for (int i = 0; i < ans.size(); i++) {
-            cout << "[" << ans[i][0] << ',' << ans[i][1] << ']';
-            if (i != (ans.size() - 1))
-                cout << ",";
-        }
-        cout << "]" << endl;
-
-        cout << "~"
-             << "\n";
-    }
-    return 0;
-}
-// } Driver Code Ends
